@@ -864,6 +864,9 @@ func (sc *syncContext) applyObject(t *syncTask, dryRun, force, validate bool) (c
 	var message string
 	shouldReplace := sc.replace || resourceutil.HasAnnotationOption(t.targetObj, common.AnnotationSyncOptions, common.SyncOptionReplace)
 	serverSideApply := sc.serverSideApply || resourceutil.HasAnnotationOption(t.targetObj, common.AnnotationSyncOptions, common.SyncOptionServerSideApply)
+	if resourceutil.HasAnnotationOption(t.targetObj, common.AnnotationSyncOptions, common.SyncOptionServerSideApplyFalse) {
+		serverSideApply = false
+	}
 	if shouldReplace {
 		if t.liveObj != nil {
 			// Avoid using `kubectl replace` for CRDs since 'replace' might recreate resource and so delete all CRD instances
