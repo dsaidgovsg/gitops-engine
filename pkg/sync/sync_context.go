@@ -960,6 +960,9 @@ func (sc *syncContext) applyObject(t *syncTask, dryRun, validate bool) (common.R
 	// running dry-run in server mode breaks the auto create namespace feature
 	// https://github.com/argoproj/argo-cd/issues/13874
 	serverSideApply := !dryRun && (sc.serverSideApply || resourceutil.HasAnnotationOption(t.targetObj, common.AnnotationSyncOptions, common.SyncOptionServerSideApply))
+	if serverSideApply && resourceutil.HasAnnotationOption(t.targetObj, common.AnnotationSyncOptions, common.SyncOptionDisableServerSideApply) {
+		serverSideApply = false
+	}
 	if shouldReplace {
 		if t.liveObj != nil {
 			// Avoid using `kubectl replace` for CRDs since 'replace' might recreate resource and so delete all CRD instances.

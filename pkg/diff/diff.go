@@ -97,7 +97,8 @@ func Diff(config, live *unstructured.Unstructured, opts ...Option) (*DiffResult,
 	// from common package. common package needs to be refactored and exclude
 	// dependency from kube.
 	syncOptAnnotation := "argocd.argoproj.io/sync-options"
-	ssaAnnotation := "ServerSideApply=true"
+	ssaEnabledAnnotation := "ServerSideApply=true"
+	ssaDisabledAnnotation := "ServerSideApply=false"
 
 	// structuredMergeDiff is mainly used as a feature flag to enable
 	// calculating diffs using the structured-merge-diff library
@@ -105,7 +106,10 @@ func Diff(config, live *unstructured.Unstructured, opts ...Option) (*DiffResult,
 	// given diff Option or if the desired state resource has the
 	// Server-Side apply sync option annotation enabled.
 	structuredMergeDiff := o.structuredMergeDiff ||
-		(config != nil && resource.HasAnnotationOption(config, syncOptAnnotation, ssaAnnotation))
+		(config != nil && resource.HasAnnotationOption(config, syncOptAnnotation, ssaEnabledAnnotation))
+	if structuredMergeDiff && config != nil && resource.HasAnnotationOption(config, syncOptAnnotation, ssaDisabledAnnotation) {
+		structuredMergeDiff = false
+	}
 	if structuredMergeDiff {
 		r, err := StructuredMergeDiff(config, live, o.gvkParser, o.manager)
 		if err != nil {
