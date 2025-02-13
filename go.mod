@@ -8,6 +8,7 @@ require (
 	github.com/go-logr/logr v1.3.0
 	github.com/golang/mock v1.6.0
 	github.com/google/gnostic-models v0.6.8
+	github.com/google/uuid v1.3.0
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/sync v0.5.0
@@ -21,7 +22,7 @@ require (
 	k8s.io/kube-aggregator v0.29.6
 	k8s.io/kube-openapi v0.0.0-20231010175941-2dd684a91f00
 	k8s.io/kubectl v0.29.6
-	k8s.io/kubernetes v1.29.6
+	k8s.io/kubernetes v1.29.14
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1
 	sigs.k8s.io/yaml v1.3.0
 )
@@ -48,7 +49,6 @@ require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/gregjones/httpcache v0.0.0-20180305231024-9cad4c3443a7 // indirect
 	github.com/imdario/mergo v0.3.6 // indirect
@@ -100,7 +100,7 @@ require (
 )
 
 replace (
-    // After bumping these versions, run hack/update_static_schema.sh in case the schema has changed.
+	// After bumping these versions, run hack/update_static_schema.sh in case the schema has changed.
 	k8s.io/api => k8s.io/api v0.29.6
 	k8s.io/apiextensions-apiserver => k8s.io/apiextensions-apiserver v0.29.6
 	k8s.io/apimachinery => k8s.io/apimachinery v0.29.6
